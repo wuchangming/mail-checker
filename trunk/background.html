@@ -1,0 +1,315 @@
+<html>
+<head>
+<script>
+var animationFrames = 36;
+var animationSpeed = 10; // ms
+var canvas;
+var canvasContext;
+var loggedInImage;
+var pollIntervalMin = 1000 * 60;  // 1 minute
+var pollIntervalMax = 1000 * 60 * 60;  // 1 hour
+var requestFailureCount = 0;  // used for exponential backoff
+var requestTimeout = 1000 * 2;  // 5 seconds
+var rotation = 0;
+var unreadCount = -1;
+var loadingAnimation = new LoadingAnimation();
+
+if (!chrome.cookies) {
+	chrome.cookies = chrome.experimental.cookies;
+}
+    
+function getEmailUrl() {
+  var url = 'http://entry.mail.163.com/coremail/fcg/ntesdoor2'
+  url += '?lightweight=1&verifycookie=1&language=-1&style=-1&username=';
+  url += localStorage.email;
+  return url;
+}
+
+function isGmailUrl(url) {
+  // This is the Gmail we're looking for if:
+  // - starts with the correct gmail url
+  // - doesn't contain any other path chars
+  var gmail = getEmailUrl();
+  if (url.indexOf(gmail) != 0)
+    return false;
+
+  return url.length == gmail.length || url[gmail.length] == '?' ||
+                       url[gmail.length] == '#';
+}
+
+// A "loading" animation displayed while we wait for the first response from
+// Gmail. This animates the badge text with a dot that cycles from left to
+// right.
+function LoadingAnimation() {
+  this.timerId_ = 0;
+  this.maxCount_ = 8;  // Total number of states in animation
+  this.current_ = 0;  // Current state
+  this.maxDot_ = 4;  // Max number of dots in animation
+}
+
+LoadingAnimation.prototype.paintFrame = function() {
+  var text = "";
+  for (var i = 0; i < this.maxDot_; i++) {
+    text += (i == this.current_) ? "." : " ";
+  }
+  if (this.current_ >= this.maxDot_)
+    text += "";
+
+  chrome.browserAction.setBadgeText({text:text});
+  this.current_++;
+  if (this.current_ == this.maxCount_)
+    this.current_ = 0;
+}
+
+LoadingAnimation.prototype.start = function() {
+  if (this.timerId_)
+    return;
+
+  var self = this;
+  this.timerId_ = window.setInterval(function() {
+    self.paintFrame();
+  }, 100);
+}
+
+LoadingAnimation.prototype.stop = function() {
+  if (!this.timerId_)
+    return;
+
+  window.clearInterval(this.timerId_);
+  this.timerId_ = 0;
+}
+
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
+  if (changeInfo.url && isGmailUrl(changeInfo.url)) {
+    getInboxCount(function(count) {
+      updateUnreadCount(count);
+    });
+  }
+});
+
+
+function init() {
+  canvas = document.getElementById('canvas');
+  loggedInImage = document.getElementById('logged_in');
+  canvasContext = canvas.getContext('2d');
+
+  chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
+  chrome.browserAction.setIcon({path: "email_logged_in.png"});
+  loadingAnimation.start();
+
+  startRequest();
+}
+
+function scheduleRequest() {
+  var randomness = Math.random() * 2;
+  var exponent = Math.pow(2, requestFailureCount);
+  var delay = Math.min(randomness * pollIntervalMin * exponent,
+                       pollIntervalMax);
+  delay = Math.round(delay);
+
+  window.setTimeout(startRequest, delay);
+}
+
+// ajax stuff
+function startRequest() {
+  getInboxCount(
+    function(count) {
+      loadingAnimation.stop();
+      updateUnreadCount(count);
+      scheduleRequest();
+    },
+    function() {
+      loadingAnimation.stop();
+      showLoggedOut();
+      scheduleRequest();
+    }
+  );
+}
+
+function getInboxCount(onSuccess, onError) {
+  var xhr_l = new XMLHttpRequest();
+  var abortTimerId = window.setTimeout(function() {
+    xhr_l.abort();  // synchronously calls onreadystatechange
+  }, requestTimeout);
+
+  function handleSuccess(count) {
+    requestFailureCount = 0;
+    window.clearTimeout(abortTimerId);
+    if (onSuccess)
+      onSuccess(count);
+  }
+
+  function handleError() {
+    ++requestFailureCount;
+    window.clearTimeout(abortTimerId);
+    if (onError)
+      onError();
+  }
+  
+  try {
+    xhr_l.onerror = function(error) {
+      handleError();
+    }
+    
+    var url = "https://reg.163.com/login.jsp?type=1";
+    url += "&url=http://entry.mail.163.com/coremail/fcg/ntesdoor2?";
+    url += "lightweight%3D1%26verifycookie%3D1%26language%3D-1%26style%3D-1";
+
+    var data = "verifycookie=1&style=-1&product=mail163&savelogin=";
+    data += "&url2=http%3A%2F%2Fmail.163.com%2Ferrorpage%2Ferr_163.htm";
+    data += "&username=" + localStorage.email + "&password=" + localStorage.password + "&selType=-1";
+    
+    console.debug("url: " + url);
+    //console.debug("data: " + data);
+
+    var xhr_l = new XMLHttpRequest();
+    xhr_l.open("POST", url, false);
+    xhr_l.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr_l.send(data);
+
+    //console.debug("xhr_l.responseText: " + xhr_l.responseText);
+    
+    
+    url = "http://entry.mail.163.com";
+    url += "/coremail/fcg/ntesdoor2?lightweight=1&verifycookie=1&language=-1&style=-1";
+    url += "&username=" + localStorage.email;
+    
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+	//console.debug("xhr.readyState : " + xhr.readyState );
+	
+	if (xhr.readyState != 4)
+           return;
+	   
+	//console.debug("xhr.status: " + xhr.status);
+
+	if(xhr.status === 200) {
+		chrome.cookies.get({ url: "http://*.mail.163.com/", name: "Coremail"}, function (cookie) {
+			console.debug("cookies: " + cookie.value );
+			var Coremail = cookie.value;
+			
+			var idx_1 = Coremail.indexOf('%');
+			var idx_2 = Coremail.indexOf('%', idx_1 + 1);
+			var mailserver = Coremail.substr(idx_2+1);
+			var sessionid =  Coremail.substring(idx_1+1, idx_2);
+			
+			console.debug("host: " + mailserver );
+			console.debug("sid: " + sessionid);
+			
+			url = 'http://' + mailserver + '/js3/index.jsp?sid='+sessionid;
+			
+			console.debug("url: " + url);
+			xhr2 = new XMLHttpRequest();
+			xhr2.open("GET", url, false);
+			xhr2.send(null);
+			
+			//console.debug("xhr.responseText: " + xhr2.responseText);
+			
+			var resp = document.getElementById("responseDiv");
+			resp.innerHTML = xhr2.responseText;
+			var inboxnew = document.getElementById("bWelcomeInboxNew").innerHTML;
+			
+			console.debug("inboxnew: " + inboxnew);
+			if (inboxnew) {
+				handleSuccess(inboxnew);
+				return;
+			} else {
+				console.error("Error: feed retrieved, but no <bWelcomeInboxNew> node " + "found");
+				handleError();
+			}
+			return;
+	      });
+	}
+
+	handleError();
+    }
+   
+    xhr.open("GET", url, true);
+    console.debug("url: " + url);
+    
+    xhr.send(null);
+     } catch(e) {
+    console.error("exception: " + e);
+    handleError();
+  }
+}
+
+function updateUnreadCount(count) {
+  if (unreadCount != count) {
+    unreadCount = count;
+    animateFlip();
+  }
+}
+
+
+function ease(x) {
+  return (1-Math.sin(Math.PI/2+x*Math.PI))/2;
+}
+
+function animateFlip() {
+  rotation += 1/animationFrames;
+  drawIconAtRotation();
+
+  if (rotation <= 1) {
+    setTimeout("animateFlip()", animationSpeed);
+  } else {
+    rotation = 0;
+    drawIconAtRotation();
+    chrome.browserAction.setBadgeText({
+      text: unreadCount != "0" ? unreadCount : ""
+    });
+    chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
+  }
+}
+
+function showLoggedOut() {
+  unreadCount = -1;
+  chrome.browserAction.setIcon({path:"email_not_logged_in.png"});
+  chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
+  chrome.browserAction.setBadgeText({text:"?"});
+}
+
+function drawIconAtRotation() {
+  canvasContext.save();
+  canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+  canvasContext.translate(
+      Math.ceil(canvas.width/2),
+      Math.ceil(canvas.height/2));
+  canvasContext.rotate(2*Math.PI*ease(rotation));
+  canvasContext.drawImage(loggedInImage,
+      -Math.ceil(canvas.width/2),
+      -Math.ceil(canvas.height/2));
+  canvasContext.restore();
+
+  chrome.browserAction.setIcon({imageData:canvasContext.getImageData(0, 0,
+      canvas.width,canvas.height)});
+}
+
+function goToInbox() {
+  chrome.tabs.getAllInWindow(undefined, function(tabs) {
+    for (var i = 0, tab; tab = tabs[i]; i++) {
+      if (tab.url && isGmailUrl(tab.url)) {
+        chrome.tabs.update(tab.id, {selected: true});
+        return;
+      }
+    }
+    chrome.tabs.create({url: getEmailUrl()});
+  });
+}
+
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+  goToInbox();
+});
+
+</script>
+</head>
+<body onload="init()">
+<img id="logged_in" src="email_logged_in.png">
+<canvas id="canvas" width="19" height="19">
+<div id="responseDiv" align=center>
+</div>
+</body>
+</html>
+
