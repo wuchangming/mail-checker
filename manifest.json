@@ -1,7 +1,7 @@
 {
   "name": "Mail Checker",
   "description": "Displays the number of unread messages in your Mail inbox. You can also click the button to open your inbox.",
-  "version": "0.1",
+  "version": "0.2",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": [
@@ -9,7 +9,6 @@
     "cookies",
     "http://*.163.com/*",
     "https://*.163.com/*"
-    //"http://*/*"
    ],
   "browser_action": {
       "default_title": ""

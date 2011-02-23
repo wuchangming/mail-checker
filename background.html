@@ -127,6 +127,19 @@ function startRequest() {
   );
 }
 
+function removeCookiesForDomain(domain) {
+	chrome.cookies.getAll({url: 'http://' + domain}, function(cookies) {
+		for (var i in cookies) {
+			var url = "http" + (cookies[i].secure ? "s" : "") + "://" + cookies[i].domain +
+			cookies[i].path;
+			console.debug("url: " + url);
+			console.debug("name: " + cookies[i].name);
+			chrome.cookies.remove({"url": url, "name": cookies[i].name});
+		}
+	})
+}
+
+
 function getInboxCount(onSuccess, onError) {
   var xhr_l = new XMLHttpRequest();
   var abortTimerId = window.setTimeout(function() {
@@ -151,6 +164,8 @@ function getInboxCount(onSuccess, onError) {
     xhr_l.onerror = function(error) {
       handleError();
     }
+    
+    //removeCookiesForDomain('mail.163.com');
     
     var url = "https://reg.163.com/login.jsp?type=1";
     url += "&url=http://entry.mail.163.com/coremail/fcg/ntesdoor2?";
@@ -185,9 +200,23 @@ function getInboxCount(onSuccess, onError) {
 	//console.debug("xhr.status: " + xhr.status);
 
 	if(xhr.status === 200) {
-		chrome.cookies.get({ url: "http://*.mail.163.com/", name: "Coremail"}, function (cookie) {
-			console.debug("cookies: " + cookie.value );
-			var Coremail = cookie.value;
+		chrome.cookies.getAll({ url: "http://*.mail.163.com/", name: "Coremail"}, function (cookies) {
+			for (var i in cookies) {
+				console.debug("cookie name: " + cookies[i].name );
+				console.debug("cookie value: " + cookies[i].value );
+
+				console.debug("cookie domain: " + cookies[i].domain );
+				console.debug("cookie hostOnly: " + cookies[i].hostOnly );
+				console.debug("cookie path: " + cookies[i].path );
+				console.debug("cookie secure: " + cookies[i].secure );
+				console.debug("cookie httpOnly: " + cookies[i].httpOnly );
+				console.debug("cookie session: " + cookies[i].session );
+				console.debug("cookie storeId: " + cookies[i].storeId );
+
+			}
+			//console.debug("cookies: " + cookie.value );
+			//var Coremail = cookie.value;
+			var Coremail = cookies[0].value;
 			
 			var idx_1 = Coremail.indexOf('%');
 			var idx_2 = Coremail.indexOf('%', idx_1 + 1);
