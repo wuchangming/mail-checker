@@ -102,17 +102,31 @@ function init() {
 }
 
 function scheduleRequest() {
-  var randomness = Math.random() * 2;
-  var exponent = Math.pow(2, requestFailureCount);
-  var delay = Math.min(randomness * pollIntervalMin * exponent,
-                       pollIntervalMax);
-  delay = Math.round(delay);
+  //var randomness = Math.random() * 2;
+  //var exponent = Math.pow(2, requestFailureCount);
+  //var delay = Math.min(randomness * pollIntervalMin * exponent,
+  //                     pollIntervalMax);
+  //delay = Math.round(delay);
 
-  window.setTimeout(startRequest, delay);
+  //window.setTimeout(startRequest, delay);
+    window.setTimeout(startRequest, localStorage.checkcycle * 1000 * 60);
 }
 
 // ajax stuff
 function startRequest() {
+  
+  console.debug('mail:' + localStorage.email )
+  console.debug('password:' + localStorage.password )
+  console.debug('checkcycle:' + localStorage.checkcycle )
+  
+  if(typeof(localStorage.password)=="undefined") 
+  //if ( localStorage.password )
+  //if ( localStorage.email || localStorage.password || localStorage.checkcycle)
+  {
+    window.setTimeout(startRequest, 1000 * 10);
+    return;
+  }
+
   getInboxCount(
     function(count) {
       loadingAnimation.stop();

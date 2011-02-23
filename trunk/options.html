@@ -54,14 +54,17 @@ body {
 
 <div class="section-header first">Custom Domain</div>
 <p>To use Mail checker for Your Domain, enter the domain here.
-<p>
+<!--<p>
   https://mail.163.com/<input type="text" id="custom-domain" oninput="markDirty()">
-    <em>(eg a/mydomain.com)</em>
+    <em>(eg a/mydomain.com)</em>-->
 <p>
     email:<input type="text" id="custom-email" oninput="markDirty()">
     <em>@163.com</em>
 <p>
     password:<input type="password" id="custom-password" oninput="markDirty()">
+    
+<p>
+    check-cycle:<input type="text" id="custom-checkcycle" oninput="markDirty()">Minutes
 
 <div id="footer">
   <button id="save-button" style="font-weight:bold" onclick="save()"
@@ -73,26 +76,35 @@ body {
 var customDomainsTextbox;
 var emailTextBox;
 var passwordTextBox;
+var checkcycleTextBox;
 var saveButton;
 
 init();
 
 function init() {
-  customDomainsTextbox = document.getElementById("custom-domain");
+  //customDomainsTextbox = document.getElementById("custom-domain");
   emailTextBox = document.getElementById("custom-email");
   passwordTextBox = document.getElementById("custom-password");
+  checkcycleTextBox = document.getElementById("custom-checkcycle");
+ 
   saveButton = document.getElementById("save-button");
 
-  customDomainsTextbox.value = localStorage.customDomain || "";
+  //customDomainsTextbox.value = localStorage.customDomain || "";
   emailTextBox.value = localStorage.email || "";
   passwordTextBox.value = localStorage.password || "";
+  checkcycleTextBox.value = localStorage.checkcycle || "15";
+  //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
+	//checkcycleTextBox.value = "15";
+  //else
+	//checkcycleTextBox.value = localStorage.checkcycle.toString();
   markClean();
 }
 
 function save() {
-  localStorage.customDomain = customDomainsTextbox.value;
+  //localStorage.customDomain = customDomainsTextbox.value;
   localStorage.email = emailTextBox.value;
   localStorage.password = passwordTextBox.value;
+  localStorage.checkcycle = parseInt(checkcycleTextBox.value);
   markClean();
 
   chrome.extension.getBackgroundPage().init();
