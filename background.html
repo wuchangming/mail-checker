@@ -115,9 +115,9 @@ function scheduleRequest() {
 // ajax stuff
 function startRequest() {
   
-  console.debug('mail:' + localStorage.email )
-  console.debug('password:' + localStorage.password )
-  console.debug('checkcycle:' + localStorage.checkcycle )
+  //console.debug('mail:' + localStorage.email )
+  //console.debug('password:' + localStorage.password )
+  //console.debug('checkcycle:' + localStorage.checkcycle )
   
   if(typeof(localStorage.password)=="undefined") 
   //if ( localStorage.password )
@@ -248,13 +248,13 @@ function getInboxCount(onSuccess, onError) {
 			xhr2.send(null);
 			
 			//console.debug("xhr.responseText: " + xhr2.responseText);
-			
-			var resp = document.getElementById("responseDiv");
-			resp.innerHTML = xhr2.responseText;
-			var inboxnew = document.getElementById("bWelcomeInboxNew").innerHTML;
-			
+
+			idx_1 = xhr2.responseText.indexOf('id="bWelcomeInboxNew"');
+			idx_1 = xhr2.responseText.indexOf('>', idx_1);
+			idx_2 = xhr2.responseText.indexOf('<', idx_1);
+			var inboxnew = xhr2.responseText.substring(idx_1+1, idx_2);
 			console.debug("inboxnew: " + inboxnew);
-			if (inboxnew) {
+			if (parseInt(inboxnew) != NaN) {
 				handleSuccess(inboxnew);
 				return;
 			} else {
@@ -351,8 +351,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 <body onload="init()">
 <img id="logged_in" src="email_logged_in.png">
 <canvas id="canvas" width="19" height="19">
-<div id="responseDiv" align=center>
-</div>
 </body>
 </html>
 
