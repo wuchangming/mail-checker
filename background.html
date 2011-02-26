@@ -11,7 +11,7 @@ var pollIntervalMax = 1000 * 60 * 60;  // 1 hour
 var requestFailureCount = 0;  // used for exponential backoff
 var requestTimeout = 1000 * 2;  // 5 seconds
 var rotation = 0;
-var unreadCount = -1;
+var unreadCount = "";
 var loadingAnimation = new LoadingAnimation();
 
 if (!chrome.cookies) {
@@ -307,7 +307,7 @@ function animateFlip() {
 }
 
 function showLoggedOut() {
-  unreadCount = -1;
+  unreadCount = "";
   chrome.browserAction.setIcon({path:"email_not_logged_in.png"});
   chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
   chrome.browserAction.setBadgeText({text:"?"});
