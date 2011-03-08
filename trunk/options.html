@@ -65,6 +65,9 @@ body {
     
 <p>
     check-cycle:<input type="text" id="custom-checkcycle" oninput="markDirty()">Minutes
+    
+<p>
+    <input type=checkbox id="custom-displayall" onclick="markDirty()">Display the number of all unread mails
 
 <div id="footer">
   <button id="save-button" style="font-weight:bold" onclick="save()"
@@ -77,6 +80,7 @@ var customDomainsTextbox;
 var emailTextBox;
 var passwordTextBox;
 var checkcycleTextBox;
+var displayallCheckBox;
 var saveButton;
 
 init();
@@ -86,6 +90,7 @@ function init() {
   emailTextBox = document.getElementById("custom-email");
   passwordTextBox = document.getElementById("custom-password");
   checkcycleTextBox = document.getElementById("custom-checkcycle");
+  displayallCheckBox = document.getElementById("custom-displayall");
  
   saveButton = document.getElementById("save-button");
 
@@ -93,6 +98,7 @@ function init() {
   emailTextBox.value = localStorage.email || "";
   passwordTextBox.value = localStorage.password || "";
   checkcycleTextBox.value = localStorage.checkcycle.toString() || "15";
+  displayallCheckBox.Checked = localStorage.displayall || false;
   //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
 	//checkcycleTextBox.value = "15";
   //else
@@ -105,6 +111,8 @@ function save() {
   localStorage.email = emailTextBox.value;
   localStorage.password = passwordTextBox.value;
   localStorage.checkcycle = parseInt(checkcycleTextBox.value);
+  localStorage.displayall = displayallCheckBox.Checked;
+  
   markClean();
 
   chrome.extension.getBackgroundPage().init();
