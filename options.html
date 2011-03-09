@@ -97,8 +97,8 @@ function init() {
   //customDomainsTextbox.value = localStorage.customDomain || "";
   emailTextBox.value = localStorage.email || "";
   passwordTextBox.value = localStorage.password || "";
-  checkcycleTextBox.value = localStorage.checkcycle.toString() || "15";
-  displayallCheckBox.Checked = localStorage.displayall || false;
+  checkcycleTextBox.value = localStorage.checkcycle || "15";
+  displayallCheckBox.checked = localStorage.displayall == "true" || false;
   //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
 	//checkcycleTextBox.value = "15";
   //else
@@ -110,8 +110,8 @@ function save() {
   //localStorage.customDomain = customDomainsTextbox.value;
   localStorage.email = emailTextBox.value;
   localStorage.password = passwordTextBox.value;
-  localStorage.checkcycle = parseInt(checkcycleTextBox.value);
-  localStorage.displayall = displayallCheckBox.Checked;
+  localStorage.checkcycle = checkcycleTextBox.value;
+  localStorage.displayall = displayallCheckBox.checked;
   
   markClean();
 
