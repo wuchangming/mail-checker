@@ -252,8 +252,8 @@ function getInboxCount(onSuccess, onError) {
 			//console.debug("xhr.responseText: " + xhr2.responseText);
 			
 			var inboxnew;
-			
-			if (!localStorage.displayall) {
+				
+			if (localStorage.displayall == "false") {
 				try {
 					idx_1 = xhr2.responseText.indexOf('folders : [{');
 					idx_2 = xhr2.responseText.indexOf(', senders : {', idx_1);
