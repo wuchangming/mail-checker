@@ -1,0 +1,130 @@
+<html>
+<head>
+<title>Mail Checker - Options</title>
+<style>
+body {
+  font-family:helvetica, arial, sans-serif;
+  font-size:80%;
+  margin:10px;
+}
+
+#header {
+  padding-bottom:1.5em;
+  padding-top:1.5em;
+}
+
+#header h1 {
+  font-size: 156%;
+  display:inline;
+  padding-bottom:43px;
+  padding-left:75px;
+  padding-top:40px;
+  background:url(icon_128.png) no-repeat;
+  background-size:67px;
+  background-position:1px 18px;
+}
+
+.section-header {
+  background:#ebeff9;
+  border-top:1px solid #b5c7de;
+  font-size:99%;
+  padding:3px 0 2px 5px;
+  font-weight:bold;
+  margin-bottom:1em;
+  margin-top:4em;
+}
+
+.section-header.first {
+  margin-top:1em;
+}
+
+#custom-domain {
+  width:300px;
+  margin-left:2px;
+}
+
+#footer {
+  margin-top:4em;
+}
+</style>
+</head>
+<body>
+
+<div id="header"><h1>Mail Checker Options</h1></div>
+
+<div class="section-header first">Custom Domain</div>
+<p>To use Mail checker for Your Domain, enter the domain here.
+<!--<p>
+  https://mail.163.com/<input type="text" id="custom-domain" oninput="markDirty()">
+    <em>(eg a/mydomain.com)</em>-->
+<p>
+    email:<input type="text" id="custom-email" oninput="markDirty()">
+    <em>@163.com</em>
+<p>
+    password:<input type="password" id="custom-password" oninput="markDirty()">
+    
+<p>
+    check-cycle:<input type="text" id="custom-checkcycle" oninput="markDirty()">Minutes
+    
+<p>
+    <input type=checkbox id="custom-displayall" onclick="markDirty()">Display the number of all unread mails
+
+<div id="footer">
+  <button id="save-button" style="font-weight:bold" onclick="save()"
+    >Save</button>
+  <button onclick="init()">Cancel</button>
+</div>
+
+<script>
+var customDomainsTextbox;
+var emailTextBox;
+var passwordTextBox;
+var checkcycleTextBox;
+var displayallCheckBox;
+var saveButton;
+
+init();
+
+function init() {
+  //customDomainsTextbox = document.getElementById("custom-domain");
+  emailTextBox = document.getElementById("custom-email");
+  passwordTextBox = document.getElementById("custom-password");
+  checkcycleTextBox = document.getElementById("custom-checkcycle");
+  displayallCheckBox = document.getElementById("custom-displayall");
+ 
+  saveButton = document.getElementById("save-button");
+
+  //customDomainsTextbox.value = localStorage.customDomain || "";
+  emailTextBox.value = localStorage.email || "";
+  passwordTextBox.value = localStorage.password || "";
+  checkcycleTextBox.value = localStorage.checkcycle || "15";
+  displayallCheckBox.checked = localStorage.displayall == "true" || false;
+  //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
+	//checkcycleTextBox.value = "15";
+  //else
+	//checkcycleTextBox.value = localStorage.checkcycle.toString();
+  markClean();
+}
+
+function save() {
+  //localStorage.customDomain = customDomainsTextbox.value;
+  localStorage.email = emailTextBox.value;
+  localStorage.password = passwordTextBox.value;
+  localStorage.checkcycle = checkcycleTextBox.value;
+  localStorage.displayall = displayallCheckBox.checked;
+  
+  markClean();
+
+  chrome.extension.getBackgroundPage().init();
+}
+
+function markDirty() {
+  saveButton.disabled = false;
+}
+
+function markClean() {
+  saveButton.disabled = true;
+}
+</script>
+</body>
+</html>
