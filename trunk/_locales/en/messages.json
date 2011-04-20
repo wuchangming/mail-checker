@@ -1,0 +1,38 @@
+{
+	"chrome_extension_name": {
+		"message": "Mail Checker"
+	},
+	"chrome_extension_description": {
+		"message": "Displays the number of unread mails in your Mail inbox"
+	},
+	"browser_action_title": {
+		"message": ""
+	},
+	"option_title": {
+		"message": "Mail Checker - Option"
+	},
+	"setting": {
+		"message": "Setting"
+	},
+	"email": {
+		"message": "Email:"
+	},
+	"password": {
+		"message": "Password:"
+	},
+	"checkcycle": {
+		"message": "Check Cycle:"
+	},
+	"minute": {
+		"message": "Minutes"
+	},
+	"displayall": {
+		"message": "Display the number of all unread mails"
+	},
+	"save": {
+		"message": "Save"
+	},
+	"cancel": {
+		"message": "Cancel"
+	}
+}

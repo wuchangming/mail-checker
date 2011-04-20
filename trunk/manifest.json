@@ -1,7 +1,7 @@
 {
-  "name": "Mail Checker",
-  "description": "Displays the number of unread messages in your Mail inbox. You can also click the button to open your inbox.",
-  "version": "0.7",
+  "name": "__MSG_chrome_extension_name__",
+  "description": "__MSG_chrome_extension_description__",
+  "version": "1.0",
   "homepage_url": "https://chrome.google.com/extensions/detail/kaklalnjjcbnacalpghdfokeohelpbnf?hl=zh-cn",
   "background_page": "background.html",
   "options_page": "options.html",
@@ -12,9 +12,10 @@
     "https://*.163.com/*"
    ],
   "browser_action": {
-      "default_title": ""
+      "default_title": "__MSG_browser_action_title__"
   },
   "icons": {
     "128": "icon_128.png"
-  }
+  },
+  "default_locale" : "en"
 }
