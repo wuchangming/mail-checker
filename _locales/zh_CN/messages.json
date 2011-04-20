@@ -1,0 +1,38 @@
+{
+	"chrome_extension_name": {
+		"message": "Mail Checker"
+	},
+	"chrome_extension_description": {
+		"message": "检查邮箱未读邮件数"
+	},
+	"browser_action_title": {
+		"message": ""
+	},
+	"option_title": {
+		"message": "Mail Checker - 选项"
+	},
+	"setting": {
+		"message": "设置"
+	},
+	"email": {
+		"message": "邮箱:"
+	},
+	"password": {
+		"message": "密码:"
+	},
+	"checkcycle": {
+		"message": "检查周期:"
+	},
+	"minute": {
+		"message": "分钟"
+	},
+	"displayall": {
+		"message": "显示所有未读邮件数"
+	},
+	"save": {
+		"message": "保存"
+	},
+	"cancel": {
+		"message": "取消"
+	}
+}

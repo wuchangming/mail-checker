@@ -49,30 +49,40 @@ body {
 </style>
 </head>
 <body>
+<script type="text/javascript" src="src/options.js" ></script>
 
-<div id="header"><h1>Mail Checker Options</h1></div>
+<div id="header"><h1 id='header1'>Mail Checker Options</h1></div>
 
-<div class="section-header first">Custom Domain</div>
-<p>To use Mail checker for Your Domain, enter the domain here.
-<!--<p>
-  https://mail.163.com/<input type="text" id="custom-domain" oninput="markDirty()">
-    <em>(eg a/mydomain.com)</em>-->
-<p>
-    email:<input type="text" id="custom-email" oninput="markDirty()">
-    <em>@163.com</em>
-<p>
-    password:<input type="password" id="custom-password" oninput="markDirty()">
-    
-<p>
-    check-cycle:<input type="text" id="custom-checkcycle" oninput="markDirty()">Minutes
-    
-<p>
-    <input type=checkbox id="custom-displayall" onclick="markDirty()">Display the number of all unread mails
+<div class="section-header first" id="setting">Setting</div>
+<table width="auto" border="0" cellpadding="1" cellspacing="1">
+  <tbody>
+    <tr>
+      <td style="text-align: right;" id="email">Email:</td>
+      <td style="text-align: left; "><input type="text" id="custom-email" oninput="markDirty()">@
+<select id="custom-mailserver" onchange="markDirty()">
+    <option value="163.com">163.com</option>
+    <option value="126.com">126.com</option>
+</select> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right;" id="password">Password:</td>
+      <td style="text-align: left; "><input type="password" id="custom-password" oninput="markDirty()"></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;" id="checkcycle">Check Cycle</td>
+      <td style="text-align: left;"><input type="text" id="custom-checkcycle" maxlength="3" size="1" oninput="markDirty()"><label for="custom-checkcycle" id="minute">Minutes</label></td>
+    </tr>
+    <tr>
+      <td style="text-align: right;"><input type=checkbox id="custom-displayall" onclick="markDirty()"></td>
+      <td style="text-align: left;" id="displayall">Display the number of all unread mails</td>
+    </tr>
+    </tbody>
+</table>
+</div>
 
 <div id="footer">
-  <button id="save-button" style="font-weight:bold" onclick="save()"
-    >Save</button>
-  <button onclick="init()">Cancel</button>
+  <button id="save-button" style="font-weight:bold" onclick="save()">Save</button>
+  <button id="cancel-button" onclick="init()">Cancel</button>
 </div>
 
 <script>
@@ -82,7 +92,9 @@ var passwordTextBox;
 var checkcycleTextBox;
 var displayallCheckBox;
 var saveButton;
+var mailserverDropList;
 
+locale();
 init();
 
 function init() {
@@ -91,6 +103,7 @@ function init() {
   passwordTextBox = document.getElementById("custom-password");
   checkcycleTextBox = document.getElementById("custom-checkcycle");
   displayallCheckBox = document.getElementById("custom-displayall");
+  mailserverDropList = document.getElementById("custom-mailserver");
  
   saveButton = document.getElementById("save-button");
 
@@ -99,6 +112,7 @@ function init() {
   passwordTextBox.value = localStorage.password || "";
   checkcycleTextBox.value = localStorage.checkcycle || "15";
   displayallCheckBox.checked = localStorage.displayall == "true" || false;
+  mailserverDropList.value = localStorage.mailserver || "163.com";
   //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
 	//checkcycleTextBox.value = "15";
   //else
@@ -112,7 +126,11 @@ function save() {
   localStorage.password = passwordTextBox.value;
   localStorage.checkcycle = checkcycleTextBox.value;
   localStorage.displayall = displayallCheckBox.checked;
+  localStorage.mailserver = mailserverDropList.value;
   
+  var idx_1 = emailTextBox.value.indexOf("@");
+  localStorage.mailtype = emailTextBox.value.substr(idx_1+1);
+ 
   markClean();
 
   chrome.extension.getBackgroundPage().init();
@@ -125,6 +143,7 @@ function markDirty() {
 function markClean() {
   saveButton.disabled = true;
 }
+
 </script>
 </body>
 </html>
