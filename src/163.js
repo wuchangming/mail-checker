@@ -1,4 +1,4 @@
-
+ï»¿
 function get163Url(email) {
 	var url = 'http://entry.mail.163.com/coremail/fcg/ntesdoor2' +
 		'?lightweight=1&verifycookie=1&language=-1&style=-1&username=';
@@ -16,28 +16,6 @@ function is163Url(url) {
 		return false;
 
 	return true;
-}
-
-function login163(email, password) {
-	var url = "http://reg.163.com/login.jsp?type=1";
-	url += "&url=http://entry.mail.163.com/coremail/fcg/ntesdoor2?";
-	url += "lightweight%3D1%26verifycookie%3D1%26language%3D-1%26style%3D-1";
-
-	var data = "verifycookie=1&style=-1&product=mail163&savelogin=";
-	data += "&url2=http%3A%2F%2Fmail.126.com%2Ferrorpage%2Ferr_126.htm";
-	data += "&username=" + email + "&password=" + password + "&selType=-1";
-
-	//console.debug("url: " + url);
-	//console.debug("data: " + data);
-
-	var xhr_l = new XMLHttpRequest();
-	xhr_l.open("POST", url, false);
-	xhr_l.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	xhr_l.send(data);
-
-	//console.debug("xhr_l.responseText: " + xhr_l.responseText);
-	
-	return xhr_l.responseText;
 }
 
 function get163InboxCount(onSuccess, onError) {
@@ -67,9 +45,24 @@ function get163InboxCount(onSuccess, onError) {
     
 		//removeCookiesForDomain('mail.163.com');
     
-		var responseText = login163(localStorage.email, localStorage.password);
+		var url = "http://reg.163.com/login.jsp?type=1";
+		url += "&url=http://entry.mail.163.com/coremail/fcg/ntesdoor2?";
+		url += "lightweight%3D1%26verifycookie%3D1%26language%3D-1%26style%3D-1";
 
-		var url = pickupString(responseText, "window.location.replace(\"", "\");");
+		var data = "verifycookie=1&style=-1&product=mail163&savelogin=";
+		data += "&url2=http%3A%2F%2Fmail.126.com%2Ferrorpage%2Ferr_126.htm";
+		data += "&username=" + localStorage.email + "&password=" + localStorage.password + "&selType=-1";
+
+		//console.debug("url: " + url);
+		//console.debug("data: " + data);
+
+		xhr_l.open("POST", url, false);
+		xhr_l.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr_l.send(data);
+
+		//console.debug("xhr_l.responseText: " + xhr_l.responseText);
+
+		url = pickupString(xhr_l.responseText, "window.location.replace(\"", "\");");
 		if (url == "")
 			return;
     
@@ -115,7 +108,7 @@ function get163InboxCount(onSuccess, onError) {
 					url = 'http://' + mailserver + '/js3/index.jsp?sid='+sessionid;
 
 					console.debug("url: " + url);
-					xhr2 = new XMLHttpRequest();
+					var xhr2 = new XMLHttpRequest();
 					xhr2.open("GET", url, false);
 					xhr2.send(null);
 
@@ -131,9 +124,12 @@ function get163InboxCount(onSuccess, onError) {
 							//console.debug("folders_json: " + folders_json_text);
 							var folders_json = eval('(' + folders_json_text + ')');
 
-							for (var folder in folders_json) {
-								if(folder.name == "ÊÕ¼þÏä" || folder.name == "¶©ÔÄÓÊ¼þ") {
-									nboxnew += folder.stats.unreadMessageCount;
+							for (var i in folders_json) {
+								//console.debug("folders_json[i].name: " + folders_json[i].name);
+								//console.debug("æ”¶ä»¶ç®±");
+								
+								if(folders_json[i].name == "æ”¶ä»¶ç®±" || folders_json[i].name == "è®¢é˜…é‚®ä»¶") {
+									inboxnew += folders_json[i].stats.unreadMessageCount;
 								}
 							}
 							console.debug("inboxnew: " + inboxnew);
@@ -144,19 +140,19 @@ function get163InboxCount(onSuccess, onError) {
 						}
 						return;
 					} else {
-					// all unread mails
-					idx_1 = xhr2.responseText.indexOf('id="bWelcomeInboxNew"');
-					idx_1 = xhr2.responseText.indexOf('>', idx_1);
-					idx_2 = xhr2.responseText.indexOf('<', idx_1);
-					inboxnew = xhr2.responseText.substring(idx_1+1, idx_2);
-					console.debug("inboxnew: " + inboxnew);
-					if (parseInt(inboxnew) != NaN) {
-						handleSuccess(inboxnew);
-						return;
-					} else {
-						console.error("Error: feed retrieved, but no <bWelcomeInboxNew> node found!");
-						handleError();
-					}
+						// all unread mails
+						idx_1 = xhr2.responseText.indexOf('id="bWelcomeInboxNew"');
+						idx_1 = xhr2.responseText.indexOf('>', idx_1);
+						idx_2 = xhr2.responseText.indexOf('<', idx_1);
+						inboxnew = xhr2.responseText.substring(idx_1+1, idx_2);
+						console.debug("inboxnew: " + inboxnew);
+						if (parseInt(inboxnew) != NaN) {
+							handleSuccess(inboxnew);
+							return;
+						} else {
+							console.error("Error: feed retrieved, but no <bWelcomeInboxNew> node found!");
+							handleError();
+						}
 						return;
 					}
 				});
