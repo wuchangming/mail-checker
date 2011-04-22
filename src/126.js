@@ -49,11 +49,9 @@ function get126InboxCount(onSuccess, onError) {
 		url += "&product=mail126&url=http://entry.mail.126.com/cgi/ntesdoor?";
 		url += "hid%3D10010102%26lightweight%3D1%26language%3D-1%26style%3D-1";
 
-		var email = localStorage.email + "@126.com";
-		
-		var data = "domain=126.com&language=-1&bCookie=&username=" + email;
+		var data = "domain=126.com&language=-1&bCookie=&username=" + localStorage.email + "%40126.com";
 		data += "&savelogin=&url2=http%3A%2F%2Fmail.126.com%2Ferrorpage%2Ferr_126.htm";
-		data += "&user=" + email + "&password=" + localStorage.password + "&style=-1";
+		data += "&user=" + localStorage.email + "&password=" + localStorage.password + "&style=-1&enter.x=%B5%C7%A1%A1%C2%BC";
 
 		console.debug("url: " + url);
 		console.debug("data: " + data);

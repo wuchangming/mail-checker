@@ -109,7 +109,7 @@ function goToInbox() {
 				return;
 			}
 		}
-		chrome.tabs.create({url: checker.getEmailUrl()});
+		chrome.tabs.create({url: checker.getEmailUrl(localStorage.email)});
 	});
 }
 
