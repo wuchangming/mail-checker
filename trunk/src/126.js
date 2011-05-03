@@ -45,7 +45,7 @@ function get126InboxCount(onSuccess, onError) {
     
 		//removeCookiesForDomain('mail.163.com');
     
-		var url = "http://reg.163.com/login.jsp?type=1";
+		var url = "https://reg.163.com/login.jsp?type=1";
 		url += "&product=mail126&url=http://entry.mail.126.com/cgi/ntesdoor?";
 		url += "hid%3D10010102%26lightweight%3D1%26language%3D-1%26style%3D-1";
 
