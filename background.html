@@ -34,6 +34,16 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
 	}
 });
 
+function isInit() {
+	if(typeof(localStorage.email)=="undefined" || localStorage.email.length<6) 
+		return false;
+		
+	if(typeof(localStorage.password)=="undefined" || localStorage.password.length<6) 
+		return false;
+		
+	return true;
+}
+
 function init() {
 	canvas = document.getElementById('canvas');
 	loggedInImage = document.getElementById('logged_in');
@@ -41,7 +51,7 @@ function init() {
   
 	unreadCount = "";
 	
-	if(typeof(localStorage.password)=="undefined" || localStorage.password.length<6) 
+	if(!isInit()) 
 	{
 		chrome.browserAction.setIcon({path: checker.email_not_logged_in_ico});
 		return;
@@ -102,6 +112,21 @@ function showLoggedOut() {
 }
 
 function goToInbox() {
+	if (!isInit())
+	{
+		chrome.tabs.getAllInWindow(undefined, function(tabs) {
+			for (var i = 0, tab; tab = tabs[i]; i++) {
+				if (tab.url && tab.url == chrome.extension.getURL("options.html")) {
+					chrome.tabs.update(tab.id, {selected: true});
+					return;
+				}
+			}
+			
+			chrome.tabs.create({url: "options.html"});
+		});
+		return;
+	}
+		
 	chrome.tabs.getAllInWindow(undefined, function(tabs) {
 		for (var i = 0, tab; tab = tabs[i]; i++) {
 			if (tab.url && checker.isEmailUrl(tab.url)) {
@@ -109,6 +134,7 @@ function goToInbox() {
 				return;
 			}
 		}
+			
 		chrome.tabs.create({url: checker.getEmailUrl(localStorage.email)});
 	});
 }
