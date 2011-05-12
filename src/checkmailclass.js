@@ -25,6 +25,13 @@ CheckMailClass.prototype.init = function(mailserver) {
 		this.email_logged_in_ico = "icons/163/email_logged_in.png";
 		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
 		break;
+	case "yeah.net":
+		this.getEmailUrl = getYeahUrl;
+		this.isEmailUrl = isYeahUrl;
+		this.getInboxCount = getYeahInboxCount;
+		this.email_logged_in_ico = "icons/163/email_logged_in.png";
+		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
+		break;
 	default:
 		this.getEmailUrl = get163Url;
 		this.isEmailUrl = is163Url;

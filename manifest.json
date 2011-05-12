@@ -1,8 +1,8 @@
 {
   "name": "__MSG_chrome_extension_name__",
   "description": "__MSG_chrome_extension_description__",
-  "version": "1.3",
-  "homepage_url": "https://chrome.google.com/extensions/detail/kaklalnjjcbnacalpghdfokeohelpbnf?hl=zh-cn",
+  "version": "1.4",
+  "homepage_url": "https://chrome.google.com/webstore/detail/kaklalnjjcbnacalpghdfokeohelpbnf?hl=zh-CN",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": [
@@ -10,7 +10,10 @@
     "cookies",
     "http://*.163.com/*",
     "https://*.163.com/*",
-    "http://*.126.com/*"
+    "http://*.126.com/*",
+    "https://*.126.com/*",
+    "http://*.yeah.net/*",
+    "https://*.yeah.net/*"
    ],
   "browser_action": {
       "default_title": "__MSG_browser_action_title__"
