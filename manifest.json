@@ -8,10 +8,10 @@
   "permissions": [
     "tabs",
     "cookies",
-    "http://*.163.com/*",
-    "https://*.163.com/*",
     "http://*.126.com/*",
     "https://*.126.com/*",
+    "http://*.163.com/*",
+    "https://*.163.com/*",
     "http://*.yeah.net/*",
     "https://*.yeah.net/*"
    ],
