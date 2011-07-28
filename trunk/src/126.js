@@ -10,7 +10,7 @@ function is126Url(url) {
 	// This is the Gmail we're looking for if:
 	// - starts with the correct gmail url
 	// - doesn't contain any other path chars
-	var email = "mail.126.com/js3/main.jsp";
+	var email = "mail.126.com/js4/main.jsp";
 	
 	if (url.indexOf(email)  == -1)
 		return false;
@@ -117,7 +117,7 @@ function get126InboxCount(onSuccess, onError) {
 							console.debug("host: " + mailserver );
 							console.debug("sid: " + sessionid);
 
-							url = 'http://' + mailserver + '/js3/index.jsp?sid='+sessionid;
+							url = 'http://' + mailserver + '/js4/index.jsp?sid='+sessionid;
 
 							console.debug("url: " + url);
 							var xhr3 = new XMLHttpRequest();
@@ -128,10 +128,9 @@ function get126InboxCount(onSuccess, onError) {
 
 							var inboxnew = 0;
 						
-							if (localStorage.displayall == "false") {
 								try {
 									idx_1 = xhr3.responseText.indexOf('folders : [{');
-									idx_2 = xhr3.responseText.indexOf(', senders : {', idx_1);
+								idx_2 = xhr3.responseText.indexOf(',folderStats : {', idx_1);
 									var folders_json_text = xhr3.responseText.substring(idx_1+9, idx_2);
 									//console.debug("folders_json: " + folders_json_text);
 									var folders_json = eval('(' + folders_json_text + ')');
@@ -139,7 +138,7 @@ function get126InboxCount(onSuccess, onError) {
 									for (var i in folders_json) {
 										//console.debug("folders_json[i].name: " + folders_json[i].name);
 										//console.debug("收件箱");
-										if(folders_json[i].name == "收件箱" || folders_json[i].name == "订阅邮件") {
+									if(localStorage.displayall == "true" || folders_json[i].name == "收件箱" || folders_json[i].name == "订阅邮件") {
 											inboxnew += folders_json[i].stats.unreadMessageCount;
 										}
 									}
@@ -150,22 +149,6 @@ function get126InboxCount(onSuccess, onError) {
 									handleError();
 								}
 								return;
-							} else {
-								// all unread mails
-								idx_1 = xhr3.responseText.indexOf('id="bWelcomeInboxNew"');
-								idx_1 = xhr3.responseText.indexOf('>', idx_1);
-								idx_2 = xhr3.responseText.indexOf('<', idx_1);
-								inboxnew = xhr3.responseText.substring(idx_1+1, idx_2);
-								console.debug("inboxnew: " + inboxnew);
-								if (parseInt(inboxnew) != NaN) {
-									handleSuccess(inboxnew);
-									return;
-								} else {
-									console.error("Error: feed retrieved, but no <bWelcomeInboxNew> node found!");
-									handleError();
-								}
-									return;
-								}
 						});
 						return;
 					}
