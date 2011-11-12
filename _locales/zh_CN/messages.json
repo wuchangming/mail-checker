@@ -29,6 +29,9 @@
 	"displayall": {
 		"message": "显示所有未读邮件数"
 	},
+	"warn_msg": {
+		"message": "警告：需要保存密码，请不要在公用机器上使用！"
+	},
 	"save": {
 		"message": "保存"
 	},
