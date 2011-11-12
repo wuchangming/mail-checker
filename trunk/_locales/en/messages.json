@@ -29,6 +29,9 @@
 	"displayall": {
 		"message": "Display the number of all unread mails"
 	},
+	"warn_msg": {
+		"message": "WARNING: Keep password, Don't use on PUBLIC MACHINES!"
+	},
 	"save": {
 		"message": "Save"
 	},
