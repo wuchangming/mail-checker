@@ -7,7 +7,7 @@ function pickupString(target, start, end)
 	if(end=="")
 		return target.substring(idx_s + 1);
 		
-	var idx_e = target.indexOf(end, idx_s + 1);
+	var idx_e = target.indexOf(end, idx_s + start.length);
 	
 	if(idx_e == -1)
 		return "";

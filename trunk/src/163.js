@@ -45,12 +45,12 @@ function get163InboxCount(onSuccess, onError) {
     
 		//removeCookiesForDomain('mail.163.com');
     
-		var url = "http://reg.163.com/login.jsp?type=1";
+		var url = "https://reg.163.com/login.jsp?type=1";
 		url += "&url=http://entry.mail.163.com/coremail/fcg/ntesdoor2?";
 		url += "lightweight%3D1%26verifycookie%3D1%26language%3D-1%26style%3D-1";
 
 		var data = "verifycookie=1&style=-1&product=mail163&savelogin=";
-		data += "&url2=http%3A%2F%2Fmail.126.com%2Ferrorpage%2Ferr_126.htm";
+		data += "&url2=http%3A%2F%2Fmail.163.com%2Ferrorpage%2Ferr_163.htm";
 		data += "&username=" + localStorage.email + "&password=" + localStorage.password + "&selType=-1";
 
 		//console.debug("url: " + url);

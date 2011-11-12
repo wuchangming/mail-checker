@@ -43,12 +43,12 @@ function getYeahInboxCount(onSuccess, onError) {
 			handleError();
 		}
     
-		var url = "http://reg.163.com/login.jsp?type=1";
+		var url = "https://reg.163.com/login.jsp?type=1";
 		url += "&product=mailyeah&url=http://entry.mail.yeah.net/cgi/ntesdoor?";
 		url += "lightweight%3D1%26verifycookie%3D1%26from%3Dweb%26style%3D-1";
 
 		var data = "username=" + localStorage.email + "%40yeah.net";
-		data += "&url2=http%3A%2F%2Femail.163.com%2Ferrorpage%2Ferr_yeah.htm";
+		data += "&url2=http%3A%2F%2Fmail.yeah.net%2Ferrorpage%2Ferr_yeah.htm";
 		data += "&user=" + localStorage.email + "&password=" + localStorage.password;
 
 		console.debug("url: " + url);
