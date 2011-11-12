@@ -30,7 +30,7 @@
 		"message": "Display the number of all unread mails"
 	},
 	"warn_msg": {
-		"message": "WARNING: Keep password, Don't use on PUBLIC MACHINES!"
+		"message": "REMINDER: Save password, use with caution on public machines!"
 	},
 	"save": {
 		"message": "Save"
