@@ -1,7 +1,7 @@
 {
   "name": "__MSG_chrome_extension_name__",
   "description": "__MSG_chrome_extension_description__",
-  "version": "1.5",
+  "version": "1.6",
   "homepage_url": "https://chrome.google.com/webstore/detail/kaklalnjjcbnacalpghdfokeohelpbnf?hl=zh-CN",
   "background_page": "background.html",
   "options_page": "options.html",
@@ -12,6 +12,8 @@
     "https://*.126.com/*",
     "http://*.163.com/*",
     "https://*.163.com/*",
+    "http://*.qq.com/*",
+    "https://*.qq.com/*",
     "http://*.yeah.net/*",
     "https://*.yeah.net/*"
    ],
