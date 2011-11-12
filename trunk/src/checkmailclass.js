@@ -32,6 +32,13 @@ CheckMailClass.prototype.init = function(mailserver) {
 		this.email_logged_in_ico = "icons/163/email_logged_in.png";
 		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
 		break;
+	case "qq.com":
+		this.getEmailUrl = getQQUrl;
+		this.isEmailUrl = isQQUrl;
+		this.getInboxCount = getQQInboxCount;
+		this.email_logged_in_ico = "icons/qq/email_logged_in.png";
+		this.email_not_logged_in_ico = "icons/qq/email_not_logged_in.png";
+		break;		
 	default:
 		this.getEmailUrl = get163Url;
 		this.isEmailUrl = is163Url;

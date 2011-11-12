@@ -3,9 +3,11 @@
 <script type="text/javascript" src="src/utilize.js"></script>
 <script type="text/javascript" src="src/animation.js" ></script>
 <script type="text/javascript" src="src/checkmailclass.js" ></script>
+<script type="text/javascript" src="src/qq-utils.js" ></script>
 
 <script type="text/javascript" src="src/126.js" ></script>
 <script type="text/javascript" src="src/163.js" ></script>
+<script type="text/javascript" src="src/qq.js" ></script>
 <script type="text/javascript" src="src/yeah.js" ></script>
 <script>
 
@@ -59,6 +61,7 @@ function init() {
 	}
   
 	checker.init(localStorage.mailserver);
+	loggedInImage.src = checker.email_logged_in_ico;
 
 	chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
 	chrome.browserAction.setIcon({path: checker.email_logged_in_ico});
