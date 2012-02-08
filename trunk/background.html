@@ -20,6 +20,7 @@ var requestTimeout = 1000 * 2;  // 5 seconds
 var unreadCount = "";
 var loadingAnimation = new LoadingAnimation();
 var checker = new CheckMailClass();
+var icon_url = '';
 
 if (!chrome.cookies) {
 	chrome.cookies = chrome.experimental.cookies;
@@ -62,6 +63,7 @@ function init() {
   
 	checker.init(localStorage.mailserver);
 	loggedInImage.src = checker.email_logged_in_ico;
+	icon_url = 'http://www.'+localStorage.mailserver +'/favicon.ico';
 
 	chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
 	chrome.browserAction.setIcon({path: checker.email_logged_in_ico});
@@ -105,6 +107,8 @@ function updateUnreadCount(count) {
 	if (unreadCount != count) {
 		unreadCount = count;
 		animateFlip();
+		if (unreadCount != 0)
+			notify(icon_url, chrome.i18n.getMessage('notify_msg') + unreadCount, 5000);
 	}
 }
 

@@ -83,6 +83,10 @@ body {
       <td style="text-align: right;"><input type=checkbox id="custom-displayall" onclick="markDirty()"></td>
       <td style="text-align: left;" id="displayall">Display the number of all unread mails</td>
     </tr>
+    <tr>
+      <td style="text-align: right;"><input type=checkbox id="custom-notify" onclick="markDirty()"></td>
+      <td style="text-align: left;" id="notification">Display notifications</td>
+    </tr>
     </tbody>
 </table>
 </div>
@@ -102,6 +106,7 @@ var emailTextBox;
 var passwordTextBox;
 var checkcycleTextBox;
 var displayallCheckBox;
+var notificationCheckBox;
 var saveButton;
 var mailserverDropList;
 
@@ -114,6 +119,7 @@ function init() {
   passwordTextBox = document.getElementById("custom-password");
   checkcycleTextBox = document.getElementById("custom-checkcycle");
   displayallCheckBox = document.getElementById("custom-displayall");
+  notificationCheckBox = document.getElementById("custom-notify");
   mailserverDropList = document.getElementById("custom-mailserver");
  
   saveButton = document.getElementById("save-button");
@@ -123,6 +129,7 @@ function init() {
   passwordTextBox.value = localStorage.password || "";
   checkcycleTextBox.value = localStorage.checkcycle || "15";
   displayallCheckBox.checked = localStorage.displayall == "true" || false;
+  notificationCheckBox.checked = localStorage.notification == "true" || false;
   mailserverDropList.value = localStorage.mailserver || "163.com";
   //if ( !localStorage.checkcycle || localStorage.checkcycle == 0 )
 	//checkcycleTextBox.value = "15";
@@ -137,6 +144,7 @@ function save() {
   localStorage.password = passwordTextBox.value;
   localStorage.checkcycle = checkcycleTextBox.value;
   localStorage.displayall = displayallCheckBox.checked;
+  localStorage.notification = notificationCheckBox.checked;
   localStorage.mailserver = mailserverDropList.value;
   
   var idx_1 = emailTextBox.value.indexOf("@");

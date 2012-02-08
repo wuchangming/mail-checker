@@ -29,6 +29,12 @@
 	"displayall": {
 		"message": "Display the number of all unread mails"
 	},
+	"notification": {
+		"message": "Display notifications"
+	},
+	"notify_msg": {
+		"message": "Unread Mails: "
+	},
 	"warn_msg": {
 		"message": "REMINDER: Save password, use with caution on public machines!"
 	},

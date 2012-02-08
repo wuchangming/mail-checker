@@ -1,11 +1,12 @@
 {
   "name": "__MSG_chrome_extension_name__",
   "description": "__MSG_chrome_extension_description__",
-  "version": "1.6",
+  "version": "1.7",
   "homepage_url": "https://chrome.google.com/webstore/detail/kaklalnjjcbnacalpghdfokeohelpbnf?hl=zh-CN",
   "background_page": "background.html",
   "options_page": "options.html",
   "permissions": [
+    "notifications",
     "tabs",
     "cookies",
     "http://*.126.com/*",
