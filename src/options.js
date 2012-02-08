@@ -10,6 +10,7 @@ function locale() {
 	setText("checkcycle", chrome.i18n.getMessage('checkcycle'));
 	setText("minute", chrome.i18n.getMessage('minute'));
 	setText("displayall", chrome.i18n.getMessage('displayall'));
+	setText("notification", chrome.i18n.getMessage('notification'));
 	setText("warn_msg", chrome.i18n.getMessage('warn_msg'));
 	setText("save-button", chrome.i18n.getMessage('save'));
 	setText("cancel-button", chrome.i18n.getMessage('cancel'));

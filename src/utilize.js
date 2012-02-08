@@ -26,3 +26,21 @@ function removeCookiesForDomain(domain) {
 		}
 	})
 }
+
+function notify(icon_url, message, timeout) {
+	if( window.webkitNotifications && window.webkitNotifications.checkPermission() == 0 ) {
+		var notification = webkitNotifications.createNotification(
+			icon_url,  // icon url - can be relative
+			'Mail Checker',  // notification title
+			message
+		);
+		notification.show();
+		if ( timeout ) {
+			setTimeout(function() {
+				notification.cancel();
+			}, timeout);
+		}
+		return true;
+	}
+	return false;
+}

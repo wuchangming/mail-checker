@@ -29,6 +29,12 @@
 	"displayall": {
 		"message": "显示所有未读邮件数"
 	},
+	"notification": {
+		"message": "显示桌面通知"
+	},
+	"notify_msg": {
+		"message": "未读邮件："
+	},
 	"warn_msg": {
 		"message": "友情提醒：需要保存密码，公用机器上慎用！"
 	},
