@@ -107,7 +107,7 @@ function updateUnreadCount(count) {
 	if (unreadCount != count) {
 		unreadCount = count;
 		animateFlip();
-		if (unreadCount != 0)
+		if (localStorage.notification == "true" && unreadCount != 0)
 			notify(icon_url, chrome.i18n.getMessage('notify_msg') + unreadCount, 5000);
 	}
 }
