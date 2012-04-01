@@ -18,31 +18,19 @@ CheckMailClass.prototype.getInboxCount = function() {
 
 CheckMailClass.prototype.init = function(mailserver) {
 	switch(mailserver) {
-	case "126.com":
-		this.getEmailUrl = get126Url;
-		this.isEmailUrl = is126Url;
-		this.getInboxCount = get126InboxCount;
-		this.email_logged_in_ico = "icons/163/email_logged_in.png";
-		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
-		break;
-	case "yeah.net":
-		this.getEmailUrl = getYeahUrl;
-		this.isEmailUrl = isYeahUrl;
-		this.getInboxCount = getYeahInboxCount;
-		this.email_logged_in_ico = "icons/163/email_logged_in.png";
-		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
-		break;
 	case "qq.com":
 		this.getEmailUrl = getQQUrl;
 		this.isEmailUrl = isQQUrl;
 		this.getInboxCount = getQQInboxCount;
 		this.email_logged_in_ico = "icons/qq/email_logged_in.png";
 		this.email_not_logged_in_ico = "icons/qq/email_not_logged_in.png";
-		break;		
+		break;
+	case "126.com":
+	case "yeah.net":		
 	default:
-		this.getEmailUrl = get163Url;
-		this.isEmailUrl = is163Url;
-		this.getInboxCount = get163InboxCount;
+		this.getEmailUrl = getNeteaseUrl;
+		this.isEmailUrl = isNeteaseUrl;
+		this.getInboxCount = getNeteaseInboxCount;
 		this.email_logged_in_ico = "icons/163/email_logged_in.png";
 		this.email_not_logged_in_ico = "icons/163/email_not_logged_in.png";
 		break;
