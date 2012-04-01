@@ -5,10 +5,8 @@
 <script type="text/javascript" src="src/checkmailclass.js" ></script>
 <script type="text/javascript" src="src/qq-utils.js" ></script>
 
-<script type="text/javascript" src="src/126.js" ></script>
-<script type="text/javascript" src="src/163.js" ></script>
+<script type="text/javascript" src="src/netease_comm.js" ></script>
 <script type="text/javascript" src="src/qq.js" ></script>
-<script type="text/javascript" src="src/yeah.js" ></script>
 <script>
 
 var canvas;
@@ -114,7 +112,7 @@ function updateUnreadCount(count) {
 
 function showLoggedOut() {
 	unreadCount = "";
-	chrome.browserAction.setIcon({path:checker.mail_not_logged_in_ico});
+	chrome.browserAction.setIcon({path:checker.email_not_logged_in_ico});
 	chrome.browserAction.setBadgeBackgroundColor({color:[190, 190, 190, 230]});
 	chrome.browserAction.setBadgeText({text:"?"});
 }
