@@ -57,13 +57,18 @@ function getQQInboxCount(onSuccess, onError) {
 		var verifycode = pickupString(xhr_l.responseText, "ptui_checkVC('0','", "'");
 		console.debug("verifycode: " + verifycode);
 		
-                var passkey = md5(md5_3(localStorage.password) + verifycode.toUpperCase());
+		// get from chkAccount in login_div.js
+		var F = hexchar2bin(md5(localStorage.password));
+		var E = md5(F + uin2hex(localStorage.email));
+		var passkey = md5(E + verifycode.toUpperCase());
+		
+        //var passkey = md5(md5_3(localStorage.password) + verifycode.toUpperCase());
 		console.debug("passkey: " + passkey);
 		
 		url = "https://ssl.ptlogin2.qq.com/login?ptlang=2052&uin=" + localStorage.email;
 		url += "&u_domain=@qq.com&u="  + localStorage.email + "@qq.com&p=" + passkey;
 		url += "&verifycode=" + verifycode + "&aid=522005705";
-		url += "&u1=https%3A%2F%2Fmail.qq.com%2Fcgi-bin%2Flogin%3Fvt%3Dpassport%26vm%3Dwpt%26ft%3Dptlogin%26validcnt%3D0%26clientaddr%3D" + localStorage.email +  "%40qq.com&remember=&ss=1&from_ui=1&ptredirect=1&h=1&wording=%E5%BF%AB%E9%80%9F%E7%99%BB%E5%BD%95&mibao_css=m_ptmail&fp=loginerroralert&action=3-8-11844&dummy=";
+		url += "&u1=https%3A%2F%2Fmail.qq.com%2Fcgi-bin%2Flogin%3Fvt%3Dpassport%26vm%3Dwpt%26ft%3Dptlogin%26validcnt%3D0%26clientaddr%3D" + localStorage.email +  "%40qq.com&remember=&ss=1&from_ui=1&ptredirect=1&h=1&wording=%E5%BF%AB%E9%80%9F%E7%99%BB%E5%BD%95&mibao_css=m_ptmail&fp=loginerroralert&action=2-25-55248&g=1&t=1&dummy=";
 		
 		xhr_l.open("GET", url, false);
 		xhr_l.send(null);
