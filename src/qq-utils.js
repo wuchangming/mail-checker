@@ -153,3 +153,28 @@ function binl2hex(C) {
     }
     return D
 }
+function hexchar2bin(str) {
+    var arr = [];
+    for (var i = 0; i < str.length; i = i + 2) {
+        arr.push("\\x" + str.substr(i, 2))
+    }
+    arr = arr.join("");
+    eval("var temp = '" + arr + "'");
+    return temp
+}
+function uin2hex(str) {
+    var maxLength = 16;
+    str = parseInt(str);
+    var hex = str.toString(16);
+    var len = hex.length;
+    for (var i = len; i < maxLength; i++) {
+        hex = "0" + hex
+    }
+    var arr = [];
+    for (var j = 0; j < maxLength; j += 2) {
+        arr.push("\\x" + hex.substr(j, 2))
+    }
+    var result = arr.join("");
+    eval('result="' + result + '"');
+    return result
+}

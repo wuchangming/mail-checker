@@ -6,12 +6,9 @@ function getNeteaseUrl(email) {
 }
 
 function isNeteaseUrl(url) {
-	// This is the Gmail we're looking for if:
-	// - starts with the correct gmail url
-	// - doesn't contain any other path chars
-	var email = "twebmail.mail." + localStorage.mailserver + "/js4/main.jsp";
+	//var email = "twebmail.mail." + localStorage.mailserver + "/js5/main.jsp";
 	
-	if (url.indexOf(email) == -1)
+	if (url.indexOf(mailurl) == -1)
 		return false;
 
 	return true;
