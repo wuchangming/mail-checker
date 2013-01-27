@@ -90,7 +90,7 @@ function getNeteaseInboxCount(onSuccess, onError) {
 			return;
 			
 		mailurl = url;
-		url = url.replace('main.jsp', 'index.jsp');
+		//url = url.replace('main.jsp', 'index.jsp');
 		console.debug("url: " + url);
     
 		var xhr = new XMLHttpRequest();
@@ -118,7 +118,10 @@ function getNeteaseInboxCount(onSuccess, onError) {
 						//console.debug("folders_json[i].name: " + folders_json[i].name);
 						//console.debug("收件箱");
 						
-						if(localStorage.displayall == "true" || folders_json[i].name == "收件箱" || folders_json[i].name == "订阅邮件") {
+						if(localStorage.displayall == "true" 
+						   || folders_json[i].name == "收件箱" 
+						   //|| folders_json[i].name == "订阅邮件"
+						) {
 							inboxnew += folders_json[i].stats.unreadMessageCount;
 						}
 					}
