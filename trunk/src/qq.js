@@ -1,4 +1,4 @@
-﻿
+
 function getQQUrl(email) {
 	var url = 'https://mail.qq.com/cgi-bin/login?vt=passport&vm=wpt&ft=ptlogin&validcnt=0&clientaddr=';
 	url += email + "qq.com";
@@ -92,7 +92,10 @@ function getQQInboxCount(onSuccess, onError) {
 		xhr_l.send(null);
 		//console.debug("responseText: " + xhr_l.responseText);
 		
-		var inboxnew = pickupString(xhr_l.responseText, "收件箱</b><b>(", ")</b>");
+		
+		var inboxstr = pickupString(xhr_l.responseText, "&s=inbox&", "</a>");
+		console.debug("inboxstr: " + inboxstr);
+		var inboxnew = pickupString(inboxstr, "</b><b>(", ")</b>");
 		if( inboxnew == "" ) inboxnew = "0";
 		console.debug("inboxnew: " + inboxnew);
 		handleSuccess(inboxnew.toString());
