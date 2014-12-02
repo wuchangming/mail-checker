@@ -108,9 +108,9 @@ function getNeteaseInboxCount(onSuccess, onError) {
 				var inboxnew = 0;
 			
 				try {
-					idx_1 = xhr.responseText.indexOf('folders : [{');
-					idx_2 = xhr.responseText.indexOf(',folderStats : {', idx_1);
-					var folders_json_text = xhr.responseText.substring(idx_1+9, idx_2);
+					idx_1 = xhr.responseText.indexOf('folders:[{');
+					idx_2 = xhr.responseText.indexOf(',folderStats:{', idx_1);
+					var folders_json_text = xhr.responseText.substring(idx_1+8, idx_2);
 					//console.debug("folders_json: " + folders_json_text);
 					var folders_json = eval('(' + folders_json_text + ')');
 
