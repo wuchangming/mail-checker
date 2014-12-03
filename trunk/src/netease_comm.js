@@ -66,13 +66,13 @@ function getNeteaseInboxCount(onSuccess, onError) {
 			data += "&username=" + localStorage.email + "&password=" + localStorage.password;
 			break;
 		case 'yeah.net':
-			url = "https://ssl.mail.yeah.net/entry/cgi/ntesdoor";
-			url += "?funcid=loginone&language=-1&passtype=1&iframe=1&product=mailyeah";
-			url += "&from=web&df=emailyeah&module=";
-			url += "&uid="+localStorage.email+"yeah.net&style=-1";
-		
+			url = "https://mail.yeah.net/entry/cgi/ntesdoor";
+			url += "?df=webmailyeah&from=web&funcid=loginone&iframe=1&language=-1";
+			url += "&passtype=1&verifycookie=1&product=mailyeah&style=-1";
+			url += "&uid="+localStorage.email + "@yeah.net";
+
 			data="savelogin=0&url2=http%3A%2F%2Femail.163.com%2Ferrorpage%2Ferr_yeah.htm";
-			data += "&username=" + localStorage.email + "&password=" + localStorage.password;
+			data += "&username=" + localStorage.email + "@yeah.net&user=" + localStorage.email + "&password=" + localStorage.password;
 			break;
 		}
 
