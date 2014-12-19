@@ -46,24 +46,25 @@ function getNeteaseInboxCount(onSuccess, onError) {
 		
 		switch(localStorage.mailserver) {
 		case "126.com":
-			url = "https://ssl.mail.126.com/entry/cgi/ntesdoor";
-			url += "?hid=10010102&funcid=loginone&df=webmail126&language=-1&passtype=1";
-			url += "&verifycookie=-1&iframe=1&from=web&net=t&product=mail126&style=-1";
-			url += "&race=-1_-1_-1&uid="+localStorage.email+"@126.com";
-		
-			data="savelogin=0&username=" + localStorage.email + "%40126.com";
+			url = "https://mail.126.com/entry/cgi/ntesdoor";
+			url += "?df=mail126_letter&from=web&funcid=loginone&iframe=1&language=-1";
+			url += "&passtype=1&product=mail126&verifycookie=-1&net=failed&style=-1";
+			url += "&race=-2_-2_-2_db&uid="+localStorage.email+"@126.com&hid=10010102";
+
+			data = "savelogin=0&username=" + localStorage.email + "%40126.com";
 			data += "&url2=http%3A%2F%2Fmail.126.com%2Ferrorpage%2Ferr_126.htm";
-			data += "&user=" + localStorage.email + "&password=" + localStorage.password;
-			data += "&style=-1&secure=on";
+			data += "&password=" + localStorage.password;
+
 			break;
 		case "163.com":
-			url = "https://ssl.mail.163.com/entry/coremail/fcg/ntesdoor2";
-			url += "?df=webmail163&from=web&funcid=loginone&iframe=1&language=-1";
-			url += "&net=t&passtype=1&product=mail163&race=-2_-2_-2_db&style=-1";
-			url += "&uid="+localStorage.email+"@163.com";
+			url = "https://mail.163.com/entry/cgi/ntesdoor";
+			url += "?df=mail163_letter&from=web&funcid=loginone&iframe=1&language=-1";
+			url += "&passtype=1&product=mail163&net=t&style=-1&race=46_57_37_bj";
+			url += "&uid=" + localStorage.email+"@163.com";
 		
-			data="savelogin=0&url2=http%3A%2F%2Fmail.163.com%2Ferrorpage%2Ferr_163.htm";
+			data = "savelogin=0&url2=http%3A%2F%2Fmail.163.com%2Ferrorpage%2Ferr_163.htm";
 			data += "&username=" + localStorage.email + "&password=" + localStorage.password;
+			data += "&password=";
 			break;
 		case 'yeah.net':
 			url = "https://mail.yeah.net/entry/cgi/ntesdoor";
@@ -71,7 +72,7 @@ function getNeteaseInboxCount(onSuccess, onError) {
 			url += "&passtype=1&verifycookie=1&product=mailyeah&style=-1";
 			url += "&uid="+localStorage.email + "@yeah.net";
 
-			data="savelogin=0&url2=http%3A%2F%2Femail.163.com%2Ferrorpage%2Ferr_yeah.htm";
+			data = "savelogin=0&url2=http%3A%2F%2Femail.163.com%2Ferrorpage%2Ferr_yeah.htm";
 			data += "&username=" + localStorage.email + "@yeah.net&user=" + localStorage.email + "&password=" + localStorage.password;
 			break;
 		}
